@@ -42,7 +42,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: org.db.admin.entity
+  typeAliasesPackage: com.db117.adminstaging.modules.*.entity
   #  typeEnumsPackage: com.baomidou.springboot.entity.enums
   global-config:
     #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
@@ -68,7 +68,8 @@ mybatis-plus:
 
 #日志
 logging:
-  level: info
+  level:
+    com.db117.adminstaging: info
 
 #自定义
 custom:

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db117.adminstaging.modules.sys.dao.SysUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.db117.adminstaging.modules.sys.entity.SysUser">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="remarks" property="remarks"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="company_id" property="companyId"/>
+        <result column="office_id" property="officeId"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="no" property="no"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="sex" property="sex"/>
+        <result column="mobile" property="mobile"/>
+        <result column="user_type" property="userType"/>
+        <result column="photo" property="photo"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="login_date" property="loginDate"/>
+        <result column="login_flag" property="loginFlag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by AS createBy,
+        create_date AS createDate,
+        update_by AS updateBy,
+        update_date AS updateDate,
+        remarks,
+        del_flag AS delFlag,
+        company_id AS companyId, office_id AS officeId, login_name AS loginName, password, salt, no, name, email, sex, mobile, user_type AS userType, photo, login_ip AS loginIp, login_date AS loginDate, login_flag AS loginFlag
+    </sql>
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="string">
+        SELECT
+            m.permission
+        FROM
+            sys_menu AS m
+            INNER JOIN sys_role_menu AS rm ON rm.menu_id = m.id
+            INNER JOIN sys_user_role AS ur ON ur.role_id = rm.role_id
+        WHERE
+            ur.user_id = #{userId}
+    </select>
+
+    <!-- 查询用户的所有菜单ID -->
+    <select id="queryAllMenuId" resultType="string">
+        SELECT DISTINCT
+        rm.menu_id
+        FROM
+        sys_role_menu AS rm
+        INNER JOIN sys_user_role AS ur ON ur.role_id = rm.menu_id
+        WHERE
+        ur.user_id #{userId}
+    </select>
+</mapper>

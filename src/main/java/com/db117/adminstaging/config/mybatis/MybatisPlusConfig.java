@@ -1,4 +1,4 @@
-package com.db117.adminstaging.config;
+package com.db117.adminstaging.config.mybatis;
 
 import com.baomidou.mybatisplus.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.incrementer.IKeyGenerator;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("org.db.admin.modules.*.mapper*")
+@MapperScan("com.db117.adminstaging.modules.*.dao*")
 public class MybatisPlusConfig {
 
     /**
