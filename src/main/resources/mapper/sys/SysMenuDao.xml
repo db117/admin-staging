@@ -25,13 +25,13 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id,
-create_by AS createBy,
-create_date AS createDate,
-update_by AS updateBy,
-update_date AS updateDate,
-remarks,
-del_flag AS delFlag,
+        id,
+        create_by AS createBy,
+        create_date AS createDate,
+        update_by AS updateBy,
+        update_date AS updateDate,
+        remarks,
+        del_flag AS delFlag,
         parent_id AS parentId, parent_ids AS parentIds, name, sort, href, target, icon, is_show AS isShow, permission, type
     </sql>
 

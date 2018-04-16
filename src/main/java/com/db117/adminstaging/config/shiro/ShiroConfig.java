@@ -125,7 +125,6 @@ public class ShiroConfig {
      * 支持thymeleaf的shiro标签
      */
     @Bean
-//    @Lazy
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
     }
