@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -43,18 +44,18 @@ public class LoginController {
      * @param password 密码
      */
     @RequestMapping(value = "doLogin")
-    public String doLogin(String username, String password, Model model, HttpSession session) {
+    public String doLogin(String username, String password, Model model, boolean rememberMe) {
         log.info("帐号密码:" + username + "," + password);
 
         Subject subject = ShiroUtils.getSubject();
         SysUser sysUser = ShiroUtils.getUserEntity();
         //如果已经登录
-        if (sysUser != null) {
-            return "redirect:index";
-        }
+//        if (sysUser != null) {
+//            return "redirect:index";
+//        }
 
         //进行登录
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password,rememberMe);
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
@@ -70,5 +71,15 @@ public class LoginController {
         sysUserService.updateById(sysUser);
 
         return "redirect:index";
+    }
+
+    /**
+     * 退出
+     */
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        ShiroUtils.logout();
+        return "redirect:login";
     }
 }

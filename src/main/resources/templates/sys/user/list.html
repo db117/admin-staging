@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons :: head">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <div>
+            <a onclick="add()" class="layui-btn">添加用户</a>
+        </div>
+        <div class="demoTable">
+            搜索用户名：
+            <div class="layui-inline">
+                <input class="layui-input" id="nameReload" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+
+        <table class="layui-hide" id="LAY_table" lay-filter="user"></table>
+    </div>
+</div>
+
+
+<div th:replace="commons :: script"></div>
+
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['table', 'layer', 'jquery'], function () {
+        var table = layui.table
+            , layer = layui.layer
+            , $ = layui.$;
+
+        var cols=[
+            {checkbox: true, fixed: true}
+            , {field: 'name', title: '用户名'}
+            , {field: 'loginName', title: '登录名'}
+            , {field: 'sex', title: '性别', sort: true}
+        ];
+        tableRender("#LAY_table", "/sysUser/list", cols);
+
+        active = {
+            //表格重载
+            reload: function () {
+                var name = $('#nameReload').val();
+                tableReload({name:name})
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+    //添加页面
+    function add() {
+        open("/sysUser/add", "添加用户", 700, 700);
+    }
+</script>

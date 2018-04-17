@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons :: head">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>个人信息</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane">
+                <input hidden="hidden" name="id" th:value="${user.id}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" autocomplete="off" th:value="${user.name}"
+                               lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="loginName" autocomplete="off" th:value="${user.loginName}"
+                               lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="email" name="email" th:value="${user.email}"
+                               lay-verify="email" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="sex" value="1" title="男" th:checked="${user.sex == '1'}">
+                        <input type="radio" name="sex" value="0" title="女" th:checked="${user.sex == '0'}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登陆IP</label>
+                    <div class="layui-input-block">
+                        <input type="text" autocomplete="off" th:value="${user.loginIp}"
+                               readonly class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登陆时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" autocomplete="off" id="loginDate"
+                               th:value="${#dates.format(user.loginDate, 'yyyy-MM-dd HH:mm:ss')}"
+                               readonly class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="mobile" autocomplete="off" th:value="${user.mobile}"
+                               lay-verify="phone" class="layui-input">
+                    </div>
+                </div>
+
+                <!--<div class="layui-form-item" pane="">-->
+                    <!--<label class="layui-form-label">是否可登录</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<input type="radio" name="loginFlag" value="1" title="是" th:checked="${user.loginFlag == '1'}">-->
+                        <!--<input type="radio" name="loginFlag" value="0" title="否" th:checked="${user.loginFlag == '0'}">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea"
+                                  th:text="${user.remarks}"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-submit="" lay-filter="addUser">我要修改</button>
+                </div>
+            </form>
+        </div>
+
+</div>
+
+<div th:replace="commons :: script"></div>
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['form', 'layer', 'jquery', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , laydate = layui.laydate;
+        var $ = layui.jquery;
+
+        //日期
+        // laydate.render({
+        //     elem: '#loginDate'
+        //     , type: 'datetime'
+        // });
+
+        form.on("submit(addUser)", function (data) {
+            $.post(basePath + "/sysUser/save", data.field, function (res) {
+                if (res.code) {
+                    layer.msg(res.msg);
+                } else {
+                    layer.msg(res.msg);
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -20,7 +20,7 @@ public class MybatisPlusConfig {
      */
     @Bean
     public PerformanceInterceptor performanceInterceptor() {
-        return new PerformanceInterceptor();
+        return new PerformanceInterceptor().setFormat(true);
     }
 
     /**

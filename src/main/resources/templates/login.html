@@ -24,7 +24,7 @@
                         <div class="controls">
                             <label for="username" class="control-label fa fa-envelope"></label>
                             <input id="username" type="text" name="username" placeholder="登录名" tabindex="1"
-                                   autofocus="autofocus" class="form-control input-medium">
+                                   autofocus="autofocus" class="form-control input-medium" min="5">
                         </div>
                     </div>
                     <div class="control-group">
@@ -34,6 +34,7 @@
                                    class="form-control input-medium">
                         </div>
                     </div>
+                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked title="记住帐号?">
                     <p th:text="${error}" th:if="${error}"></p>
                 </div>
                 <div class="form-actions">

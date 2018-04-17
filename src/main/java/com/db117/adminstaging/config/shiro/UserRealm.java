@@ -26,63 +26,66 @@ import java.util.*;
  */
 @Component
 public class UserRealm extends AuthorizingRealm {
+    private final SysUserDao sysUserDao;
+    private final SysMenuDao sysMenuDao;
+
     @Autowired
-//    @Lazy
-    private SysUserDao sysUserDao;
-    @Autowired
-//    @Lazy
-    private SysMenuDao sysMenuDao;
+    public UserRealm(SysUserDao sysUserDao, SysMenuDao sysMenuDao) {
+        this.sysUserDao = sysUserDao;
+        this.sysMenuDao = sysMenuDao;
+    }
 
     /**
      * 授权(验证权限时调用)
      */
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		SysUser user = (SysUser)principals.getPrimaryPrincipal();
-		String userId = user.getId();
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        SysUser user = (SysUser) principals.getPrimaryPrincipal();
+        String userId = user.getId();
 
         List<String> permsList;
 
         //系统管理员，拥有最高权限
-		if( "1".equalsIgnoreCase(userId)){
-			List<SysMenu> menuList = sysMenuDao.selectList(null);
-			permsList = new ArrayList<>(menuList.size());
-			for(SysMenu menu : menuList){
-				permsList.add(menu.getPermission());
-			}
-		}else{
-			permsList = sysUserDao.queryAllPerms(userId);
-		}
+        if ("1".equalsIgnoreCase(userId)) {
+            List<SysMenu> menuList = sysMenuDao.selectList(null);
+            permsList = new ArrayList<>(menuList.size());
+            for (SysMenu menu : menuList) {
+                permsList.add(menu.getPermission());
+            }
+        } else {
+            permsList = sysUserDao.queryAllPerms(userId);
+        }
 
-		//用户权限列表
-		Set<String> permsSet = new HashSet<>();
-		for(String perms : permsList){
-			if(StrUtil.isBlank(perms)){
-				continue;
-			}
-			permsSet.addAll(Arrays.asList(perms.trim().split(",")));
-		}
+        //用户权限列表
+        Set<String> permsSet = new HashSet<>();
+        for (String perms : permsList) {
+            if (StrUtil.isBlank(perms)) {
+                continue;
+            }
+            permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+        }
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		info.setStringPermissions(permsSet);
-		return info;
-	}
+        info.setStringPermissions(permsSet);
+        return info;
+    }
 
-	/**
-	 * 认证(登录时调用)
-	 */
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken authcToken) throws AuthenticationException {
-		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
+    /**
+     * 认证(登录时调用)
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(
+            AuthenticationToken authcToken) throws AuthenticationException {
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 
         //查询用户信息
-		SysUser user = new SysUser();
-		user.setLoginName(token.getUsername());
-		user = sysUserDao.selectOne(user);
+        SysUser user = null;
+        if (!"".equals(token.getUsername())) {
+            user = sysUserDao.selectOne(new SysUser().setLoginName(token.getUsername()));
+        }
 
         //账号不存在
-        if(user == null) {
+        if (user == null) {
             throw new UnknownAccountException("账号或密码不正确");
         }
         if (!"1".equalsIgnoreCase(user.getLoginFlag())) {
@@ -90,13 +93,13 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
-	}
+    }
 
-	@Override
-	public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-		HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
         shaCredentialsMatcher.setHashAlgorithmName(ShiroUtils.HASH_ALGORITHM_NAME);
         shaCredentialsMatcher.setHashIterations(ShiroUtils.HASH_ITERATIONS);
-		super.setCredentialsMatcher(shaCredentialsMatcher);
-	}
+        super.setCredentialsMatcher(shaCredentialsMatcher);
+    }
 }

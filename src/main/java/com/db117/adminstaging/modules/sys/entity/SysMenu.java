@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
-
 /**
  * <p>
  * 菜单表
@@ -37,7 +35,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 排序
      */
-    private BigDecimal sort;
+    private Integer sort;
     /**
      * 链接
      */

@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
-
 /**
  * <p>
  * 字典表
@@ -41,7 +39,7 @@ public class SysDict extends BaseEntity {
     /**
      * 排序（升序）
      */
-    private BigDecimal sort;
+    private Integer sort;
     /**
      * 父级编号
      */
