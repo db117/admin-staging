@@ -28,30 +28,74 @@
 </body>
 </html>
 <script type="text/javascript">
-    layui.use(['table', 'layer', 'jquery'], function () {
+    layui.use(['table', 'layer', 'jquery', 'util'], function () {
         var table = layui.table
             , layer = layui.layer
             , $ = layui.$;
 
-        var cols=[
+        var cols = [
             {checkbox: true, fixed: true}
             , {field: 'name', title: '用户名'}
             , {field: 'loginName', title: '登录名'}
             , {field: 'sex', title: '性别', sort: true}
+            , {field: 'name', title: '姓名'}
+            , {field: 'email', title: '邮箱'}
+            , {field: 'mobile', title: '手机', sort: true}
+            , {field: 'loginIp', title: '最后登陆IP'}
+            , {
+                field: 'loginDate', title: '最后登陆时间'
+                , templet: '<div>{{ layui.util.toDateString(d.loginDate) }}</div>'
+            }
+            , {fixed: 'right', title: '操作', width: 120, align: 'center', toolbar: '#bar'}
         ];
         tableRender("#LAY_table", "/sysUser/list", cols);
 
+        //监听工具条
+        table.on('tool(user)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "get",
+                        url: '${ctx}/scl/ysj/work/delete?id=' + id,
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data.code === '1') {
+                                alert(data.msg)
+                            }
+                            if (data.code === '0') {
+                                obj.del();                        //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            }
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            }
+        });
+
+        //点击事件
         active = {
             //表格重载
             reload: function () {
                 var name = $('#nameReload').val();
-                tableReload({name:name})
+                tableReload({name: name})
             }
         };
-
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+        });
+
+        //监听复选框选择
+        table.on('checkbox(user)', function (obj) { //id为lay-filter的值
+            console.log(obj.checked); //当前是否选中状态
+            console.log(obj.data); //选中行的相关数据
+            console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
         });
 
     });
@@ -60,4 +104,8 @@
     function add() {
         open("/sysUser/add", "添加用户", 700, 700);
     }
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

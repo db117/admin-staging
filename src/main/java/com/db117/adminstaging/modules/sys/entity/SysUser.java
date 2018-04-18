@@ -82,6 +82,4 @@ public class SysUser extends BaseEntity {
      * 是否可登录
      */
     private String loginFlag;
-
-
 }

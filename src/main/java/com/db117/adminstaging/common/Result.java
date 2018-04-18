@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.plugins.Page;
 import lombok.Data;
 
 /**
- * layui返回对象
+ * 返回对象
  *
  * @author 大兵
  * @date 2018-03-07 11:09
  **/
 @Data
-public class LayuiRes {
+public class Result {
     /**
      * 状态码 默认0成功
      */
-    private int code;
+    private Integer code;
     /**
      * 消息
      */
@@ -28,12 +28,12 @@ public class LayuiRes {
      */
     private Object data;
 
-    public LayuiRes(int code, String msg) {
+    public Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public LayuiRes(int code, String msg, long count, Object data) {
+    public Result(int code, String msg, long count, Object data) {
         this.code = code;
         this.msg = msg;
         this.count = count;
@@ -46,8 +46,8 @@ public class LayuiRes {
      * @param count 总条数
      * @param data  表格数据
      */
-    public static LayuiRes getPageRes(int count, Object data) {
-        return new LayuiRes(0, "", count, data);
+    public static Result getPageRes(int count, Object data) {
+        return new Result(0, "", count, data);
     }
 
     /**
@@ -55,8 +55,8 @@ public class LayuiRes {
      *
      * @param msg 成功消息
      */
-    public static LayuiRes getSuccess(String msg) {
-        return new LayuiRes(0, msg);
+    public static Result getSuccess(String msg) {
+        return new Result(0, msg);
     }
 
     /**
@@ -64,15 +64,15 @@ public class LayuiRes {
      *
      * @param msg 失败消息
      */
-    public static LayuiRes getFailure(String msg) {
-        return new LayuiRes(1, msg);
+    public static Result getFailure(String msg) {
+        return new Result(1, msg);
     }
 
     /**
      * 返回数据表格页面
      */
-    public static LayuiRes getPage(Page page) {
-        return new LayuiRes(0, null, page.getTotal(), page.getRecords());
+    public static Result getPage(Page page) {
+        return new Result(0, null, page.getTotal(), page.getRecords());
     }
 
 }

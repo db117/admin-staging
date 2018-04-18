@@ -21,7 +21,7 @@ function tableRender(id, url, cols,where) {
             }
             ,where:where
             , cols: [cols]
-            , id: 'reload'
+            , id: 'reload'          //重载id
             , page: true
             , height: 'full'        //适应性高度
             , limit: 30             //默认分页数

@@ -10,7 +10,7 @@
 <div id="login">
     <div class="wrapper">
         <div class="login">
-            <form th:action="@{/doLogin}" method="post" class="container offset1 loginform">
+            <form th:action="@{/login}" method="post" class="container offset1 loginform">
                 <div id="owl-login">
                     <div class="hand"></div>
                     <div class="hand hand-r"></div>
@@ -34,8 +34,12 @@
                                    class="form-control input-medium">
                         </div>
                     </div>
-                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked title="记住帐号?">
-                    <p th:text="${error}" th:if="${error}"></p>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="checkbox" name="remember-me" value="true" th:checked="checked"/><p>Remember me</p>
+                        </div>
+                    </div>
+                    <span th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
                 </div>
                 <div class="form-actions">
                     <button type="submit" tabindex="4" class="btn btn-primary">登录</button>
@@ -52,6 +56,13 @@
             }).blur(function () {
                 $('#owl-login').removeClass('password');
             });
+
+            //Apache Shiro会话超时，登录页面跳转到父窗体的解决方法
+            window.onload = function () {
+                if (window.parent.window !== window) {
+                    window.top.location = "/login";
+                }
+            }
         });
     </script>
 </div>
