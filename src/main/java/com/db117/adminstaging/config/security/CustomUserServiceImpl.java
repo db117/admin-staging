@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2018-04-18 16:38
  **/
 @Component
-public class CustomUserService implements UserDetailsService {
+public class CustomUserServiceImpl implements UserDetailsService {
     @Autowired
     private SysUserDao sysUserDao;
 

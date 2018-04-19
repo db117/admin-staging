@@ -22,9 +22,11 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomUserService customUserService;
+    private CustomUserServiceImpl customUserServiceImpl;
     @Autowired
     private DruidDataSource dataSource;
+    @Autowired
+    private CustomAccessDecisionManager customAccessDecisionManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //定义哪些url需要保护，哪些url不需要保护
                 .authorizeRequests()
                 //定义不需要认证就可以访问
-                .antMatchers( "/static/**").permitAll()
+                .antMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,6 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .successForwardUrl("/index")
                 .permitAll()
+                //当用户通过验证后进行一系列操作
+                .successHandler(loginSuccessHandler())
                 .and()
                 .logout()
                 .permitAll()
@@ -60,12 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("admin").password("admin").roles("role");
 
         //定义密码编码格式
-        auth.userDetailsService(customUserService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(customUserServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**
-     * 配置TokenRepository
-     * @return
+     * 配置TokenRepository 把token写入到数据库
      */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -75,6 +78,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 第一次启动的时候自动建表（可以不用这句话，自己手动建表，源码中有语句的）
         // jdbcTokenRepository.setCreateTableOnStartup(true);
         return jdbcTokenRepository;
+    }
+
+    /**
+     * 登录成功后跳转的页面 用户或者管理员登录日志
+     */
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
     }
 
 }
