@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -37,7 +36,7 @@ public class BaseEntity implements Serializable {
     /**
      * 更新时间
      */
-    private LocalDateTime updateDate;
+    private Date updateDate;
     /**
      * 备注信息
      */

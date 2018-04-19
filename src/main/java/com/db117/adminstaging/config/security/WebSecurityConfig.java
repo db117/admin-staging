@@ -25,8 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomUserServiceImpl customUserServiceImpl;
     @Autowired
     private DruidDataSource dataSource;
-    @Autowired
-    private CustomAccessDecisionManager customAccessDecisionManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,19 +50,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe().tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(1209600);
 
-        http.authorizeRequests().antMatchers("/index").hasRole("USER");
-        http.csrf().disable();
+//        http.authorizeRequests().antMatchers("/index").hasRole("USER");
+        http.csrf().disable()
+                //解决iframe不能访问问题
+                .headers().frameOptions().sameOrigin();
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserServiceImpl).passwordEncoder(new BCryptPasswordEncoder())
+                .and().inMemoryAuthentication().withUser("system").password("system").roles("admin");
+
         auth    //在内存中创建了一个用户，该用户的名称为user，密码为password，用户角色为USER
                 .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("role");
+                .withUser("user").password("password").roles("USER")
+                .and().withUser("system").password("system").roles("admin");
+//        auth.inMemoryAuthentication().withUser("system").password("system").roles("admin");
 
         //定义密码编码格式
-        auth.userDetailsService(customUserServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**

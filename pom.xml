@@ -27,7 +27,6 @@
         <mybatis-plus.version>2.2.0</mybatis-plus.version>
         <druid-spring.version>1.1.9</druid-spring.version>
         <easyPoi.version>3.1.0</easyPoi.version>
-        <shiro-spring.version>1.4.0</shiro-spring.version>
         <velocity.version>2.0</velocity.version>
     </properties>
 
@@ -159,19 +158,13 @@
             <artifactId>nekohtml</artifactId>
         </dependency>
 
-        <!--thymeleaf和shiro标签整合-->
+        <!-- thymeleaf spring security 标签库-->
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
         <dependency>
-            <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>thymeleaf-extras-shiro</artifactId>
-            <version>2.0.0</version>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
         </dependency>
 
-        <!--shiro-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro-spring.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

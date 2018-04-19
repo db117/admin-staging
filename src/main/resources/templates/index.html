@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="commons::head"></div>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -51,7 +51,7 @@
         <div class="content">
             <iframe id="mainFrame" name="mainFrame" scrolling="yes" frameborder="0"
                     style="width:100%;height:100%;overflow:visible;background:#fff;"
-                    onload="iframeLoad()" ></iframe>
+                    onload="iframeLoad()" th:src="@{/sysUser/info}"></iframe>
         </div>
     </div>
 

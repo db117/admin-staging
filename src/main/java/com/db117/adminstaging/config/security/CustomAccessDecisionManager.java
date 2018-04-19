@@ -8,7 +8,6 @@ import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
  * @author 大兵
  * @date 2018-04-19 10:45
  **/
-@Component
+//@Component
 public class CustomAccessDecisionManager extends AbstractAccessDecisionManager {
 
     protected CustomAccessDecisionManager(List<AccessDecisionVoter<?>> decisionVoters) {

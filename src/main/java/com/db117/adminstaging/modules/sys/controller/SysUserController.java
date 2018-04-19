@@ -1,20 +1,28 @@
 package com.db117.adminstaging.modules.sys.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.db117.adminstaging.common.Result;
 import com.db117.adminstaging.common.base.BaseController;
+import com.db117.adminstaging.config.security.SecurityUser;
 import com.db117.adminstaging.modules.sys.entity.SysUser;
 import com.db117.adminstaging.modules.sys.service.SysUserService;
+import com.db117.adminstaging.modules.sys.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Collection;
 
 //import com.db117.adminstaging.config.shiro.ShiroUtils;
 
@@ -43,8 +51,9 @@ public class SysUserController extends BaseController {
      */
     @RequestMapping("info")
     public String info(Model model) {
-//        SysUser sysUser = sysUserService.selectById(ShiroUtils.getUserEntity().getId());
-//        model.addAttribute("user", sysUser);
+        SecurityUser sysUser = SecurityUtil.currentUser();
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) sysUser.getAuthorities();
+        model.addAttribute("user", sysUser);
         return "sys/user/info";
     }
 
@@ -71,20 +80,28 @@ public class SysUserController extends BaseController {
     /**
      * 进行添加操作
      */
-//    @PostMapping(value = "add")
-//    @ResponseBody
-//    public Result add(SysUser sysUser) {
-//        if ("1".equalsIgnoreCase(ShiroUtils.getUserEntity().getId())) {
-//            String salt = RandomUtil.randomString(16);
-//            String password = ShiroUtils.sha256(sysUser.getPassword(), salt);
-//            sysUser.setPassword(password);
-//            sysUser.setSalt(salt);
-//            sysUser.setLoginFlag("1");
-//            sysUserService.insertAllColumn(sysUser);
-//            return Result.getFailure("添加成功");
-//        }
-//        return Result.getFailure("添加失败");
-//    }
+    @PostMapping(value = "add")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Result add(SysUser sysUser) {
+        if (!StrUtil.isAllBlank(sysUser.getName(), sysUser.getPassword(), sysUser.getLoginName())) {
+            try {
+                //密码加密
+                String pass = new BCryptPasswordEncoder().encode(sysUser.getPassword());
+                sysUser.setLoginFlag("0").setPassword(pass);
+
+                //todo 添加权限和公司
+
+
+                sysUserService.insertAllColumn(sysUser);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.getFailure("添加失败");
+            }
+            return Result.getSuccess("添加成功");
+        }
+        return Result.getFailure("添加失败");
+    }
 
     /**
      * 进入列表页面

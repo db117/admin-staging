@@ -55,6 +55,9 @@ public class SecurityUser extends SysUser implements UserDetails {
 //                authorities.add(authority);
 //            }
 //        }
+        if ("test02".equals(getLoginName())) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
         authorities.add(new SimpleGrantedAuthority("user"));
         return authorities;
     }

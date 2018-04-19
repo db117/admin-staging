@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="commons :: head">
 </head>
 <body class="layui-layout-body">
@@ -7,7 +8,7 @@
 
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
-        <div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
             <a onclick="add()" class="layui-btn">添加用户</a>
         </div>
         <div class="demoTable">
@@ -104,6 +105,7 @@
     function add() {
         open("/sysUser/add", "添加用户", 700, 700);
     }
+
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

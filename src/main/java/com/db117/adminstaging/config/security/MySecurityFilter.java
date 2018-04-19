@@ -1,7 +1,6 @@
 package com.db117.adminstaging.config.security;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
@@ -21,9 +20,9 @@ import java.io.IOException;
 @Slf4j
 public class MySecurityFilter extends AbstractSecurityInterceptor
         implements Filter {
-    @Autowired
+    //    @Autowired
     private CustomAccessDecisionManager customAccessDecisionManager;
-    @Autowired
+    //    @Autowired
     private CustomSecurityMetadataSource customSecurityMetadataSource;
 
     public void invoke(FilterInvocation fi) throws IOException, ServletException {
