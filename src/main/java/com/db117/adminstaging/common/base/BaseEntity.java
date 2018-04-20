@@ -1,7 +1,9 @@
 package com.db117.adminstaging.common.base;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
+import com.db117.adminstaging.modules.sys.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -46,4 +48,15 @@ public class BaseEntity implements Serializable {
      */
     @TableLogic
     private String delFlag;
+    /**
+     * 创建者
+     */
+    @TableField(exist = false)
+    protected SysUser createUser;
+
+    /**
+     * 修改者
+     */
+    @TableField(exist = false)
+    protected SysUser updateUser;
 }

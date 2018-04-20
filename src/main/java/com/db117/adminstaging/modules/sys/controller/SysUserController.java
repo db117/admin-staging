@@ -13,7 +13,6 @@ import com.db117.adminstaging.modules.sys.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Collection;
 
 //import com.db117.adminstaging.config.shiro.ShiroUtils;
 
@@ -52,7 +49,6 @@ public class SysUserController extends BaseController {
     @RequestMapping("info")
     public String info(Model model) {
         SecurityUser sysUser = SecurityUtil.currentUser();
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) sysUser.getAuthorities();
         model.addAttribute("user", sysUser);
         return "sys/user/info";
     }
@@ -122,10 +118,27 @@ public class SysUserController extends BaseController {
         return Result.getPage(sysUserService.selectPage(page, ew));
     }
 
+    /**
+     * 删除用户
+     */
     @RequestMapping(value = "del")
     @ResponseBody
     public Result del(SysUser sysUser) {
-        return Result.getSuccess(null);
+        if (sysUserService.deleteById(sysUser.getId())) {
+            return Result.getSuccess("删除成功!");
+        }
+        return Result.getFailure("删除失败!");
+    }
+
+    @RequestMapping(value = "edit")
+    public String edit(SysUser sysUser, Model model) {
+        sysUser = sysUserService.selectById(sysUser.getId());
+        if (sysUser == null) {
+            model.addAttribute("sysUser", new SysUser());
+            return "sys/user/edit";
+        }
+        model.addAttribute("sysUser", sysUser);
+        return "sys/user/edit";
     }
 }
 

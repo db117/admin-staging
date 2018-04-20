@@ -1,7 +1,10 @@
 package com.db117.adminstaging.modules.sys.service;
 
 import com.db117.adminstaging.common.base.BaseService;
+import com.db117.adminstaging.common.vo.ZtreeVO;
 import com.db117.adminstaging.modules.sys.entity.SysMenu;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.db117.adminstaging.modules.sys.entity.SysMenu;
  */
 public interface SysMenuService extends BaseService<SysMenu> {
 
+    List<ZtreeVO> getAllTree();
 }

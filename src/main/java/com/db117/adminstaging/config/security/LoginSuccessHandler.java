@@ -1,7 +1,9 @@
 package com.db117.adminstaging.config.security;
 
 import com.db117.adminstaging.modules.sys.entity.SysUser;
+import com.db117.adminstaging.modules.sys.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
@@ -9,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * 当用户通过验证后进行一系列操作
@@ -19,16 +22,23 @@ import java.io.IOException;
 @Slf4j
 public class LoginSuccessHandler extends
         SavedRequestAwareAuthenticationSuccessHandler {
+    @Autowired
+    private SysUserService sysUserService;
+
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication) throws IOException,
             ServletException {
         //获得授权后可得到用户信息   可使用SUserService进行数据库操作
-        SysUser userDetails = (SysUser) authentication.getPrincipal();
-        //todo 把登录时间写入数据库
+        SysUser sysUser = (SysUser) authentication.getPrincipal();
+        // 把登录时间写入数据库
+        sysUser.setLoginIp(getIpAddress(request)).setLoginDate(new Date());
+        sysUserService.updateById(sysUser);
+
 
         //输出登录提示信息
-        log.info(userDetails.getName() + " 登录" + "//n IP :" + getIpAddress(request));
+        log.info(sysUser.getName() + " 登录" + "//n IP :" + getIpAddress(request));
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

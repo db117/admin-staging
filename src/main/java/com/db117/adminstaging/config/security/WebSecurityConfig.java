@@ -9,7 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 /**
@@ -47,10 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 //登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
                 .and()
-                .rememberMe().tokenRepository(persistentTokenRepository())
+                .rememberMe()
+                .rememberMeServices(rememberMeServices())
+                .key("db117")
                 .tokenValiditySeconds(1209600);
 
-//        http.authorizeRequests().antMatchers("/index").hasRole("USER");
         http.csrf().disable()
                 //解决iframe不能访问问题
                 .headers().frameOptions().sameOrigin();
@@ -58,16 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserServiceImpl).passwordEncoder(new BCryptPasswordEncoder())
-                .and().inMemoryAuthentication().withUser("system").password("system").roles("admin");
-
-        auth    //在内存中创建了一个用户，该用户的名称为user，密码为password，用户角色为USER
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and().withUser("system").password("system").roles("admin");
-//        auth.inMemoryAuthentication().withUser("system").password("system").roles("admin");
-
         //定义密码编码格式
+        auth.userDetailsService(customUserServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /**
@@ -91,4 +86,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new LoginSuccessHandler();
     }
 
+    /**
+     * 返回 RememberMeServices 实例
+     */
+    @Bean
+    public RememberMeServices rememberMeServices() {
+        JdbcTokenRepositoryImpl rememberMeTokenRepository = new JdbcTokenRepositoryImpl();
+        // 此处需要设置数据源，否则无法从数据库查询验证信息
+        rememberMeTokenRepository.setDataSource(dataSource);
+
+        // 此处的 key 可以为任意非空值(null 或 "")，单必须和起前面
+        // rememberMeServices(RememberMeServices rememberMeServices).key(key)的值相同
+        PersistentTokenBasedRememberMeServices rememberMeServices =
+                new PersistentTokenBasedRememberMeServices("db117", customUserServiceImpl, rememberMeTokenRepository);
+
+        // 该参数不是必须的，默认值为 "remember-me", 但如果设置必须和页面复选框的 name 一致
+        rememberMeServices.setParameter("remember-me");
+        return rememberMeServices;
+    }
 }

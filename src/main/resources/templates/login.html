@@ -57,7 +57,7 @@
                 $('#owl-login').removeClass('password');
             });
 
-            //Apache Shiro会话超时，登录页面跳转到父窗体的解决方法
+            //会话超时，登录页面跳转到父窗体的解决方法
             window.onload = function () {
                 if (window.parent.window !== window) {
                     window.top.location = "/login";

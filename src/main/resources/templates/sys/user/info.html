@@ -53,7 +53,7 @@
                     <div class="layui-input-block">
                         <input type="text" autocomplete="off" id="loginDate"
                                th:value="${#dates.format(user.loginDate, 'yyyy-MM-dd HH:mm:ss')}"
-                               readonly class="layui-input">
+                               readonly class="layui-input date">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -88,17 +88,12 @@
 
 <div th:replace="commons :: script"></div>
 <script type="text/javascript" th:inline="javascript">
+    showDate();
     layui.use(['form', 'layer', 'jquery', 'laydate'], function () {
         var form = layui.form
             , layer = layui.layer
             , laydate = layui.laydate;
         var $ = layui.jquery;
-
-        //日期
-        // laydate.render({
-        //     elem: '#loginDate'
-        //     , type: 'datetime'
-        // });
 
         form.on("submit(addUser)", function (data) {
             $.post(basePath + "/sysUser/save", data.field, function (res) {
