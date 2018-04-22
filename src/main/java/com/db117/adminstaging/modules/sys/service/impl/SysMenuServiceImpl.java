@@ -35,6 +35,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenu> imp
                 ztreeVO.setId(m.getId());
                 ztreeVO.setName(m.getName());
                 ztreeVO.setPid(pid);
+                ztreeVO.setUrl(m.getHref());
+                ztreeVO.setSpread(true);
                 childList.add(ztreeVO);
                 getZTree(ztreeVO, total, result);
             }

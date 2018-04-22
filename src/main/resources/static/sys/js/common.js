@@ -1,4 +1,20 @@
 /**
+ * 显示日期 把日期的class加上date
+ */
+layui.use('laydate', function () {
+    var laydate = layui.laydate;
+    //日期
+    lay('.date').each(function () {
+        laydate.render({
+            elem: this
+            , trigger: 'click'
+            , format: 'yyyy-MM-dd HH:mm:ss'
+            , type: 'datetime'
+        });
+    });
+});
+
+/**
  * 渲染表格
  * @param id 表格id
  * @param url 请求数据URL
@@ -116,20 +132,3 @@ function dataDel(obj, url) {
     });
 }
 
-/**
- * 显示日期 把日期的class加上date
- */
-function showDate() {
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-        //日期
-        lay('.date').each(function () {
-            laydate.render({
-                elem: this
-                , trigger: 'click'
-                , format: 'yyyy-MM-dd HH:mm:ss'
-                , type: 'datetime'
-            });
-        });
-    })
-}

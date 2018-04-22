@@ -44,6 +44,8 @@ public class ZtreeVO implements Serializable {
      * 子树
      */
     private List<ZtreeVO> children;
-
-
+    /**
+     * 是否展开状态（默认false）
+     */
+    private boolean spread;
 }

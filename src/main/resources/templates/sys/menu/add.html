@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="commons :: head">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+            <legend>添加菜单</legend>
+        </fieldset>
+        <form class="layui-form layui-form-pane">
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                        <input type="radio" name="type" value="0" title="目录" checked>
+                        <input type="radio" name="type" value="1" title="菜单">
+                        <input type="radio" name="type" value="2" title="按钮">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">父级菜单</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" autocomplete="off"
+                           lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="loginName" autocomplete="off"
+                           lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password" autocomplete="off"
+                           lay-verify="required|pass" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email"
+                           lay-verify="email" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">目标</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-block">
+                        <input type="radio" name="sex" value="1" title="男">
+                        <input type="radio" name="sex" value="0" title="女" checked>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图标</label>
+                <div class="layui-input-block">
+                    <input type="number" name="mobile" autocomplete="off"
+                           lay-verify="phone" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否在菜单中显示</label>
+                <div class="layui-input-block">
+                    <input type="number" name="mobile" autocomplete="off"
+                           lay-verify="phone" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea"
+                        ></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-submit="" lay-filter="addUser">我要添加</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="commons :: script"></div>
+</body>
+</html>
+<script type="text/javascript">
+    layui.use(['table', 'layer', 'jquery', 'util', 'tree'], function () {
+        var table = layui.table
+            , layer = layui.layer
+            , tree = layui.tree
+            , $ = layui.$;
+
+        //点击事件
+        active = {
+            //表格重载
+            reload: function () {
+                var name = $('#nameReload').val();
+                tableReload({name: name})
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+</script>

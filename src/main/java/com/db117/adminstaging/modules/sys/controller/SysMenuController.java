@@ -40,5 +40,10 @@ public class SysMenuController extends BaseController {
     public List<ZtreeVO> tree() {
         return sysMenuService.getAllTree();
     }
+
+    @GetMapping(value = "add")
+    public String add() {
+        return "sys/menu/add";
+    }
 }
 
