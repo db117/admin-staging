@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @since 2018-04-16
  */
 @Controller
-@RequestMapping("/sysUser")
+@RequestMapping("/sys/user")
 @Slf4j
 public class SysUserController extends BaseController {
 
@@ -48,6 +48,7 @@ public class SysUserController extends BaseController {
      */
     @RequestMapping("info")
     public String info(Model model) {
+        //当前用户
         SecurityUser sysUser = SecurityUtil.currentUser();
         model.addAttribute("user", sysUser);
         return "sys/user/info";
@@ -130,6 +131,9 @@ public class SysUserController extends BaseController {
         return Result.getFailure("删除失败!");
     }
 
+    /**
+     * 进入编辑界面
+     */
     @RequestMapping(value = "edit")
     public String edit(SysUser sysUser, Model model) {
         sysUser = sysUserService.selectById(sysUser.getId());

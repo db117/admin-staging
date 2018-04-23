@@ -95,7 +95,7 @@
             , $ = layui.$;
 
         form.on("submit(update)", function (data) {
-            $.post(basePath + "/sysUser/save", data.field, function (res) {
+            $.post(basePath + "/sys/user/save", data.field, function (res) {
                 if (res.code) {
                     layer.msg(res.msg);
                 } else {

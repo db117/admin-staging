@@ -3,6 +3,8 @@ package com.db117.adminstaging.modules.sys.dao;
 import com.db117.adminstaging.common.base.BaseDao;
 import com.db117.adminstaging.modules.sys.entity.SysRole;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 Mapper 接口
@@ -13,4 +15,8 @@ import com.db117.adminstaging.modules.sys.entity.SysRole;
  */
 public interface SysRoleDao extends BaseDao<SysRole> {
 
+    /**
+     * 根据用户查询所有角色
+     */
+    List<SysRole> findByUser(String userId);
 }

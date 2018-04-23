@@ -16,69 +16,79 @@
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-block">
                     <div class="layui-input-block">
-                        <input type="radio" name="type" value="0" title="目录" checked>
-                        <input type="radio" name="type" value="1" title="菜单">
-                        <input type="radio" name="type" value="2" title="按钮">
+                        <input type="radio" name="type" value="0" title="目录" lay-filter="type" checked>
+                        <input type="radio" name="type" value="1" title="菜单" lay-filter="type">
+                        <input type="radio" name="type" value="2" title="按钮" lay-filter="type">
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item" id="showDir" hidden="hidden">
+                <label class="layui-form-label">选择目录</label>
+                <div class="layui-input-block">
+                    <select th:each="dir,iterStat:${dirMenu}" lay-filter="dir" name="dirId">
+                        <option selected th:if="${iterStat.index==0}" value="">请选择</option>
+                        <option th:value="${dir.getId()}" th:text="${dir.getName()}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" id="showMenu" hidden="hidden">
+                <label class="layui-form-label">选择菜单</label>
+                <div class="layui-input-block">
+                    <select th:each="dir,iterStat:${dirMenu}" name="menuId" id="menuId">
+                        <option selected th:if="${iterStat.index==0}">选择目录</option>
+                        <option th:value="${dir.getId()}" th:text="${dir.getName()}"></option>
+                    </select>
+                </div>
+            </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">父级菜单</label>
+                <label class="layui-form-label">名称</label>
                 <div class="layui-input-block">
                     <input type="text" name="name" autocomplete="off"
                            lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="loginName" autocomplete="off"
-                           lay-verify="required" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block">
-                    <input type="text" name="password" autocomplete="off"
-                           lay-verify="required|pass" class="layui-input">
+                    <input type="number" name="sort" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">链接</label>
                 <div class="layui-input-block">
-                    <input type="email" name="email"
-                           lay-verify="email" class="layui-input">
+                    <input type="text" name="href"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">目标</label>
                 <div class="layui-input-block">
                     <div class="layui-input-block">
-                        <input type="radio" name="sex" value="1" title="男">
-                        <input type="radio" name="sex" value="0" title="女" checked>
+                        <input type="radio" name="target" value="0" title="内部" checked>
+                        <input type="radio" name="target" value="1" title="外部">
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">图标</label>
-                <div class="layui-input-block">
-                    <input type="number" name="mobile" autocomplete="off"
-                           lay-verify="phone" class="layui-input">
-                </div>
-            </div>
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">图标</label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="icon" autocomplete="off"-->
+            <!--lay-verify="phone" class="layui-input">-->
+            <!--</div>-->
+            <!--</div>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">是否在菜单中显示</label>
                 <div class="layui-input-block">
-                    <input type="number" name="mobile" autocomplete="off"
-                           lay-verify="phone" class="layui-input">
+                    <input type="radio" name="isShow" value="0" title="不显示">
+                    <input type="radio" name="isShow" value="1" title="显示" checked>
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">备注信息</label>
                 <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" class="layui-textarea"
-                        ></textarea>
+                    <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -91,12 +101,60 @@
 </body>
 </html>
 <script type="text/javascript">
-    layui.use(['table', 'layer', 'jquery', 'util', 'tree'], function () {
+    layui.use(['table', 'layer', 'jquery', 'util', 'tree', 'form'], function () {
         var table = layui.table
             , layer = layui.layer
             , tree = layui.tree
+            , form = layui.form
             , $ = layui.$;
 
+        //监听radio单选
+        form.on('radio(type)', function (data) {
+            console.log(data.elem); //得到radio原始DOM对象
+            console.log(data.value); //被点击的radio的value值
+            var val = data.value;
+            var dir = $("#showDir");
+            var menu = $("#showMenu");
+
+            if (val === '0') {
+                dir.hide();
+                menu.hide();
+            } else if (val === '1') {
+                dir.show();
+                menu.hide();
+            } else if (val === '2') {
+                dir.show();
+                menu.show();
+            }
+        });
+
+        //动态下拉框
+        form.on('select(dir)', function (data) {
+            // console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+            // console.log(data.othis); //得到美化后的DOM对象
+            var $menuId = $("#menuId");
+
+            var dirId = data.value;
+            if (!dirId == '') {
+                $.ajax({
+                    url: basePath + "/sys/menu/findByPid"
+                    , type: "post"
+                    , dataType: "json"
+                    , data: {pid: dirId}
+                    , success: function (data) {
+                        $menuId.html("<option>请选择<option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $menuId.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                        }
+                        form.render('select');  //重载select
+                    }
+                })
+            } else {
+                $menuId.html("<option>请选择<option>");
+                form.render('select');  //重载select
+            }
+        });
         //点击事件
         active = {
             //表格重载

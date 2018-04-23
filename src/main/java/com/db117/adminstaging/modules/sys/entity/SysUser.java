@@ -1,11 +1,13 @@
 package com.db117.adminstaging.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.db117.adminstaging.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -82,4 +84,16 @@ public class SysUser extends BaseEntity {
      * 是否可登录
      */
     private String loginFlag;
+
+    /**
+     * 权限列表
+     */
+    @TableField(exist = false)
+    private List<SysRole> roleList;
+
+    /**
+     * 菜单列表(权限)
+     */
+    @TableField(exist = false)
+    private List<SysMenu> menuList;
 }

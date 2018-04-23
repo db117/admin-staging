@@ -57,15 +57,15 @@
             }
             , {fixed: 'right', title: '操作', width: 120, align: 'center', toolbar: '#bar'}
         ];
-        tableRender("#LAY_table", basePath + "/sysUser/list", cols);
+        tableRender("#LAY_table", basePath + "/sys/user/list", cols);
 
         //监听工具条
         table.on('tool(user)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                dataDel(obj, basePath + '/sysUser/del?id=' + data.id);
+                dataDel(obj, basePath + '/sys/user/del?id=' + data.id);
             } else if (obj.event === 'edit') {
-                openFull(basePath + '/sysUser/edit?id=' + data.id, '编辑用户');
+                openFull(basePath + '/sys/user/edit?id=' + data.id, '编辑用户');
             }
         });
 
@@ -93,7 +93,7 @@
 
     //添加页面
     function add() {
-        open(basePath + "/sysUser/add", "添加用户", 700, 700);
+        open(basePath + "/sys/user/add", "添加用户", 700, 700);
     }
 
 </script>

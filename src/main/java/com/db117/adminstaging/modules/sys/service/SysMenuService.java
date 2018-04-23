@@ -15,6 +15,20 @@ import java.util.List;
  * @since 2018-04-16
  */
 public interface SysMenuService extends BaseService<SysMenu> {
-
+    /**
+     * 获取所有的菜单树
+     */
     List<ZtreeVO> getAllTree();
+
+    /**
+     * 获取所有的目录
+     */
+    List<SysMenu> findAllDir();
+
+    /**
+     * 根据父级id查询
+     *
+     * @param pid 父级id
+     */
+    List<SysMenu> findByPid(String pid);
 }

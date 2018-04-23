@@ -48,7 +48,7 @@
         window.onload = function () {
             $.ajax({
                 type: "get",
-                url: basePath + '/sysMenu/tree',
+                url: basePath + '/sys/menu/tree',
                 dataType: "json",
                 contentType: false,
                 processData: false,
@@ -80,7 +80,7 @@
 
     //添加页面
     function add() {
-        open(basePath + "/sysMenu/add", '添加菜单', 700, 800);
+        open(basePath + "/sys/menu/add", '添加菜单', 700, 800);
     }
 
 </script>

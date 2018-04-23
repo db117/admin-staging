@@ -56,4 +56,18 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenu> imp
         List<SysMenu> sysMenuList = baseMapper.selectList(wrapper);
         return getZTree(null, sysMenuList, new ArrayList<>());
     }
+
+    @Override
+    public List<SysMenu> findAllDir() {
+        EntityWrapper<SysMenu> wrapper = new EntityWrapper<SysMenu>();
+        wrapper.eq("type", "0");
+        return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<SysMenu> findByPid(String pid) {
+        EntityWrapper<SysMenu> wrapper = new EntityWrapper<SysMenu>();
+        wrapper.eq("parent_id", pid);
+        return baseMapper.selectList(wrapper);
+    }
 }

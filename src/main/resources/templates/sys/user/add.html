@@ -87,7 +87,7 @@
         });
 
         form.on("submit(addUser)", function (data) {
-            $.post(basePath + "/sysUser/add", data.field, function (res) {
+            $.post(basePath + "/sys/user/add", data.field, function (res) {
                 if (res.code === "0") {
                     layer.msg(res.msg);
                     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
