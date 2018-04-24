@@ -16,7 +16,8 @@ import java.util.List;
 public interface SysUserDao extends BaseDao<SysUser> {
     /**
      * 查询用户的所有权限
-     * @param userId  用户ID
+     *
+     * @param userId 用户ID
      */
     List<String> queryAllPerms(String userId);
 

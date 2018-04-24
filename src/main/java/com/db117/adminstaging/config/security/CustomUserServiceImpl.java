@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 自定义用户服务类
+ *
  * @author 大兵
  * @date 2018-04-18 16:38
  **/
@@ -20,11 +21,12 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
     /**
      * 加载用户,根据用户名查找用户信息
+     *
      * @param s 用户名
      */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        SysUser sysUser= null;
+        SysUser sysUser = null;
         try {
             sysUser = sysUserDao.selectOne(new SysUser().setLoginName(s));
         } catch (Exception e) {

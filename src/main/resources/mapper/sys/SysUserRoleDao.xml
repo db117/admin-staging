@@ -4,8 +4,8 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.db117.adminstaging.modules.sys.entity.SysUserRole">
-        <id column="user_id" property="userId" />
-        <result column="role_id" property="roleId" />
+        <id column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

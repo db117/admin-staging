@@ -19,6 +19,16 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
     /**
+     * 创建者
+     */
+    @TableField(exist = false)
+    protected SysUser createUser;
+    /**
+     * 修改者
+     */
+    @TableField(exist = false)
+    protected SysUser updateUser;
+    /**
      * 编号
      */
     @TableId
@@ -48,15 +58,4 @@ public class BaseEntity implements Serializable {
      */
     @TableLogic
     private String delFlag;
-    /**
-     * 创建者
-     */
-    @TableField(exist = false)
-    protected SysUser createUser;
-
-    /**
-     * 修改者
-     */
-    @TableField(exist = false)
-    protected SysUser updateUser;
 }

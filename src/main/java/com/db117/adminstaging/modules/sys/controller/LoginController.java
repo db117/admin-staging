@@ -20,10 +20,11 @@ public class LoginController {
     private SysUserService sysUserService;
 
 
-    @RequestMapping(value = "login",method = RequestMethod.GET)
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
+
     @RequestMapping(value = "index")
     public String index() {
         return "index";

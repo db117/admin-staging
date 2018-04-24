@@ -12,13 +12,13 @@ public class Test1 {
     public void testTry() {
         long start = System.currentTimeMillis();
 
-            for (int i = 0; i < 10000; i++) {
-                try {
+        for (int i = 0; i < 10000; i++) {
+            try {
                 System.out.println(i);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
         System.out.println(System.currentTimeMillis() - start);
     }

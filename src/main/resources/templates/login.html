@@ -36,7 +36,8 @@
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <input type="checkbox" name="remember-me" value="true" th:checked="checked"/><p>Remember me</p>
+                            <input type="checkbox" name="remember-me" value="true" th:checked="checked"/>
+                            <p>Remember me</p>
                         </div>
                     </div>
                     <span th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>

@@ -10,6 +10,7 @@ import java.util.Collection;
 
 /**
  * 权限用户类
+ *
  * @author 大兵
  * @date 2018-04-18 23:12
  **/
