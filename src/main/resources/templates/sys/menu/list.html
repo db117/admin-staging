@@ -4,7 +4,6 @@
 <head th:replace="commons :: head">
 </head>
 <body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
 
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
@@ -14,23 +13,20 @@
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>菜单列表</legend>
         </fieldset>
-        <div>
-            <div class="layui-row">
-                <div class="layui-col-xs3">
-                    <div style="display: inline-block; width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; overflow: auto;">
-                        <ul id="demo"></ul>
-                    </div>
-                </div>
-                <div class="layui-col-xs9">
-                    <div style="display: inline-block; width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; overflow: auto;">
-                        <iframe id="showMenu"></iframe>
-                    </div>
+        <div class="layui-row">
+            <div class="layui-col-xs3">
+                <div style="display: inline-block; width: 100%; height: 100%; padding: 10px;">
+                    <ul id="demo"></ul>
                 </div>
             </div>
-
+            <div class="layui-col-xs9" style="height: 750px">
+                <div style="display: inline-block; width: 100%; height: 100%; padding: 10px">
+                    <iframe id="showMenu" scrolling="yes" frameborder="0"
+                            style="width:100%;height:100%;overflow:visible;background:#fff;"></iframe>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
 
 <div th:replace="commons :: script"></div>
@@ -44,23 +40,25 @@
             , tree = layui.tree
             , $ = layui.$;
 
-
-        window.onload = function () {
-            $.ajax({
-                type: "get",
-                url: basePath + '/sys/menu/tree',
-                dataType: "json",
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    tree({
-                        elem: '#demo' //传入元素选择器
-                        , nodes: data
-                        , target: "#showMenu"
-                    });
-                }
-            });
-        };
+        //加载菜单树
+        $.ajax({
+            type: "get",
+            url: basePath + '/sys/menu/tree',
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                tree({
+                    elem: '#demo' //传入元素选择器
+                    , nodes: data
+                    , click: function (node) {
+                        // layer.alert(node.url);
+                        var url = basePath + "/sys/menu/form?id=" + node.id;
+                        $("#showMenu").attr("src", url);
+                    }
+                });
+            }
+        });
 
 
         //点击事件
