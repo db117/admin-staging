@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <div th:replace="commons::head"></div>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -21,7 +21,9 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <a sec:authentication="name" th:href="@{/sys/user/info}" target="mainFrame"></a>
+                    <a th:href="@{/sys/user/info}" target="mainFrame">
+                        <shiro:principal property="name"/>
+                    </a>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="" th:href="@{/sys/user/info}" target="mainFrame">基本资料</a></dd>

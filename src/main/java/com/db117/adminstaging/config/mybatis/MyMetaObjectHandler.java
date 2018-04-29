@@ -2,14 +2,13 @@ package com.db117.adminstaging.config.mybatis;
 
 
 import com.baomidou.mybatisplus.mapper.MetaObjectHandler;
+import com.db117.adminstaging.config.shiro.ShiroUtils;
 import com.db117.adminstaging.modules.sys.entity.SysUser;
-import com.db117.adminstaging.modules.sys.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.util.Date;
 
-//import com.db117.adminstaging.config.shiro.ShiroUtils;
 
 /**
  * @author 大兵
@@ -23,7 +22,7 @@ public class MyMetaObjectHandler extends MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("新增的时候干点不可描述的事情");
 
-        SysUser sysUser = SecurityUtil.currentUser();
+        SysUser sysUser = ShiroUtils.getUserEntity();
 
         //创建时间
         Object createDate = getFieldValByName("createDate", metaObject);
@@ -62,7 +61,7 @@ public class MyMetaObjectHandler extends MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("更新的时候干点不可描述的事情");
-        SysUser sysUser = SecurityUtil.currentUser();
+        SysUser sysUser = ShiroUtils.getUserEntity();
 
         //更新时间
         Object updateDate = getFieldValByName("updateDate", metaObject);

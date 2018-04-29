@@ -10,7 +10,7 @@
 <div id="login">
     <div class="wrapper">
         <div class="login">
-            <form th:action="@{/login}" method="post" class="container offset1 loginform">
+            <form th:action="@{/doLogin}" method="post" class="container offset1 loginform">
                 <div id="owl-login">
                     <div class="hand"></div>
                     <div class="hand hand-r"></div>
@@ -36,11 +36,10 @@
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <input type="checkbox" name="remember-me" value="true" th:checked="checked"/>
+                            <input type="checkbox" name="rememberMe" value="true" th:checked="checked"/>
                             <p>Remember me</p>
                         </div>
                     </div>
-                    <span th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
                 </div>
                 <div class="form-actions">
                     <button type="submit" tabindex="4" class="btn btn-primary">登录</button>
