@@ -1,9 +1,12 @@
 package com.db117.adminstaging.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.db117.adminstaging.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * <p>
@@ -60,6 +63,19 @@ public class SysMenu extends BaseEntity {
      * 类型(0目录1菜单,2按钮)
      */
     private String type;
-
-
+    /**
+     * 子菜单
+     */
+    @TableField(exist = false)
+    private List<SysMenu> list;
+    /**
+     * 父菜单名称
+     */
+    @TableField(exist=false)
+    private String parentName;
+    /**
+     * ztree属性
+     */
+    @TableField(exist=false)
+    private Boolean open;
 }

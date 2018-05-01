@@ -34,5 +34,15 @@
         del_flag AS delFlag,
         parent_id AS parentId, parent_ids AS parentIds, name, sort, href, target, icon, is_show AS isShow, permission, type
     </sql>
+    <select id="queryListParentId" resultType="com.db117.adminstaging.modules.sys.entity.SysMenu">
+        select <include refid="Base_Column_List"></include>
+        from sys_menu where parent_id = #{parentId} order by
+        sort asc
+    </select>
+
+    <select id="queryNotButtonList" resultType="com.db117.adminstaging.modules.sys.entity.SysMenu">
+        select <include refid="Base_Column_List"></include>
+        from sys_menu where type != 2 order by sort asc
+    </select>
 
 </mapper>

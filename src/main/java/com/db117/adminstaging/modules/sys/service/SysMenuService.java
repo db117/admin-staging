@@ -16,19 +16,32 @@ import java.util.List;
  */
 public interface SysMenuService extends BaseService<SysMenu> {
     /**
-     * 获取所有的菜单树
-     */
-    List<ZtreeVO> getAllTree();
-
-    /**
-     * 获取所有的目录
-     */
-    List<SysMenu> findAllDir();
-
-    /**
-     * 根据父级id查询
+     * 根据父菜单，查询子菜单
      *
-     * @param pid 父级id
+     * @param parentId   父菜单ID
+     * @param menuIdList 用户菜单ID
      */
-    List<SysMenu> findByPid(String pid);
+    List<SysMenu> queryListParentId(String parentId, List<String> menuIdList);
+
+    /**
+     * 根据父菜单，查询子菜单
+     *
+     * @param parentId 父菜单ID
+     */
+    List<SysMenu> queryListParentId(String parentId);
+
+    /**
+     * 获取不包含按钮的菜单列表
+     */
+    List<SysMenu> queryNotButtonList();
+
+    /**
+     * 获取用户菜单列表
+     */
+    List<SysMenu> getUserMenuList(String userId);
+
+    /**
+     * 删除
+     */
+    void delete(String menuId);
 }

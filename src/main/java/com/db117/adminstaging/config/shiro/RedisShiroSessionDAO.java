@@ -14,8 +14,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
+    private final RedisTemplate<String, Session> redisTemplate;
+
     @Autowired
-    private RedisTemplate redisTemplate;
+    public RedisShiroSessionDAO(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
 
     //创建session
@@ -55,7 +59,7 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
     }
 
     private Session getShiroSession(String key) {
-        return (Session) redisTemplate.opsForValue().get(key);
+        return redisTemplate.opsForValue().get(key);
     }
 
     private void setShiroSession(String key, Session session) {

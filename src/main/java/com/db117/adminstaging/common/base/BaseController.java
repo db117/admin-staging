@@ -16,4 +16,11 @@ public class BaseController {
     protected SysUser getUser() {
         return (SysUser) SecurityUtils.getSubject().getPrincipal();
     }
+    protected String getUserId() {
+        return getUser().getId();
+    }
+
+    protected String getDeptId() {
+        return getUser().getOfficeId();
+    }
 }

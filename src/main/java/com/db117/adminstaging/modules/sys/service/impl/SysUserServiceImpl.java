@@ -6,6 +6,8 @@ import com.db117.adminstaging.modules.sys.entity.SysUser;
 import com.db117.adminstaging.modules.sys.service.SysUserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUser> implements SysUserService {
 
+    @Override
+    public List<String> queryAllMenuId(String userId) {
+        return baseMapper.queryAllMenuId(userId);
+    }
 }
