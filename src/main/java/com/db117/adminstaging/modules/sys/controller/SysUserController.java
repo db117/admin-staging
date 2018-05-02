@@ -4,7 +4,7 @@ package com.db117.adminstaging.modules.sys.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.db117.adminstaging.common.Result;
+import com.db117.adminstaging.common.util.Result;
 import com.db117.adminstaging.common.base.BaseController;
 import com.db117.adminstaging.config.shiro.ShiroUtils;
 import com.db117.adminstaging.modules.sys.entity.SysUser;

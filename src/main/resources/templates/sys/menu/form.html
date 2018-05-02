@@ -13,32 +13,32 @@
                 <div class="layui-input-block">
                     <div class="layui-input-block">
                         <input type="radio" name="type" value="0" title="目录" lay-filter="type"
-                               th:checked="${sysMenu.type=='0'}">
+                               th:checked="${sysMenu.type==0}">
                         <input type="radio" name="type" value="1" title="菜单" lay-filter="type"
-                               th:checked="${sysMenu.type=='1'}">
+                               th:checked="${sysMenu.type==1}">
                         <input type="radio" name="type" value="2" title="按钮" lay-filter="type"
-                               th:checked="${sysMenu.type=='2'}">
+                               th:checked="${sysMenu.type==2}">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item" id="showDir" hidden="hidden">
                 <label class="layui-form-label">选择目录</label>
                 <div class="layui-input-block">
-                    <select th:each="dir,iterStat:${dirMenu}" lay-filter="dir" name="dirId">
-                        <option selected th:if="${iterStat.index==0}" value="">请选择</option>
-                        <option th:value="${dir.getId()}" th:text="${dir.getName()}"></option>
+                    <select lay-filter="dir" name="dirId">
+                        <div th:each="dir,iterStat:${dirMenuList}">
+                            <option selected th:if="${iterStat.index==0}" value="">请选择</option>
+                            <option th:value="${dir.getId()}" th:text="${dir.getName()}"></option>
+                        </div>
                     </select>
                 </div>
             </div>
-            <!--<div class="layui-form-item" id="showMenu" hidden="hidden">-->
-            <!--<label class="layui-form-label">选择菜单</label>-->
-            <!--<div class="layui-input-block">-->
-            <!--<select th:each="dir,iterStat:${dirMenu}" name="menuId" id="menuId">-->
-            <!--<option selected th:if="${iterStat.index==0}">选择目录</option>-->
-            <!--<option th:value="${dir.getId()}" th:text="${dir.getName()}"></option>-->
-            <!--</select>-->
-            <!--</div>-->
-            <!--</div>-->
+            <div class="layui-form-item" id="showMenu" hidden="hidden">
+                <label class="layui-form-label">选择菜单</label>
+                <div class="layui-input-block">
+                    <select name="menuId" id="menuId">
+                    </select>
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-block">
@@ -56,8 +56,15 @@
             <div class="layui-form-item" id="href">
                 <label class="layui-form-label">链接</label>
                 <div class="layui-input-block">
-                    <input type="text" name="href" placeholder="菜单,按钮必须填写"
+                    <input type="text" name="href" placeholder="菜单必须填写"
                            th:value="${sysMenu.href}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" id="permission">
+                <label class="layui-form-label">权限标识</label>
+                <div class="layui-input-block">
+                    <input type="text" name="permission" placeholder="菜单,按钮必须填写"
+                           th:value="${sysMenu.permission}" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -77,11 +84,11 @@
             <!--</div>-->
             <!--</div>-->
             <div class="layui-form-item">
-                <label class="layui-form-label">是否在菜单中显示</label>
+                <label class="layui-form-label">是否显示</label>
                 <div class="layui-input-block">
                     <div class="layui-input-block">
-                        <input type="radio" name="isShow" value="0" title="显示" th:checked="${sysMenu.isShow=='0'}">
-                        <input type="radio" name="isShow" value="1" title="不显示" th:checked="${sysMenu.isShow=='1'}">
+                        <input type="radio" name="isShow" value="0" title="显示" th:checked="${sysMenu.isShow==0}">
+                        <input type="radio" name="isShow" value="1" title="不显示" th:checked="${sysMenu.isShow==1}">
                     </div>
                 </div>
             </div>

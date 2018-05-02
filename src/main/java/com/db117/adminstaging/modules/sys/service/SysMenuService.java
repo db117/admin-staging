@@ -44,4 +44,10 @@ public interface SysMenuService extends BaseService<SysMenu> {
      * 删除
      */
     void delete(String menuId);
+
+    /**
+     * 获取所有的菜单树
+     */
+    List<ZtreeVO> getAllTree();
+
 }

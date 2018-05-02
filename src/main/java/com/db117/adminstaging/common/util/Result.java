@@ -1,4 +1,4 @@
-package com.db117.adminstaging.common;
+package com.db117.adminstaging.common.util;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import lombok.Data;
@@ -33,7 +33,7 @@ public class Result {
         this.msg = msg;
     }
 
-    public Result(int code, String msg, long count, Object data) {
+    public Result(int code, String msg, Long count, Object data) {
         this.code = code;
         this.msg = msg;
         this.count = count;
@@ -46,7 +46,7 @@ public class Result {
      * @param count 总条数
      * @param data  表格数据
      */
-    public static Result getPageRes(int count, Object data) {
+    public static Result getPageRes(Long count, Object data) {
         return new Result(0, "", count, data);
     }
 
@@ -73,6 +73,22 @@ public class Result {
      */
     public static Result getPage(Page page) {
         return new Result(0, null, page.getTotal(), page.getRecords());
+    }
+
+    /**
+     * 先前端页面返回数据
+     *
+     * @param o 要返回的数据
+     */
+    public static Result getData(Object o) {
+        return new Result(0, null, null, o);
+    }
+
+    /**
+     * 返回空的成功消息
+     */
+    public static Result getSuccess() {
+        return new Result(0, null);
     }
 
 }

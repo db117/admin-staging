@@ -54,7 +54,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 是否在菜单中显示(1显示,0不显示)
      */
-    private String isShow;
+    private Integer isShow;
     /**
      * 权限标识
      */
@@ -62,7 +62,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 类型(0目录1菜单,2按钮)
      */
-    private String type;
+    private Integer type;
     /**
      * 子菜单
      */
